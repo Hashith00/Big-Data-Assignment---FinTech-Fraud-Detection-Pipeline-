@@ -1,0 +1,25 @@
+
+=====================================
+   RECONCILIATION REPORT
+   Window : 2026-05-07T10:55:01.880967 -> 2026-05-07T16:55:01.880967
+   Created: 2026-05-07 16:55:04 UTC
+=====================================
+
+INGRESS SUMMARY
+  Total Transactions : 310
+  Total Ingress Amt  : $77,957.40
+
+VALIDATED (NON-FRAUD)
+  Transaction Count  : 310
+  Validated Amount   : $77,957.40  (100.0%)
+
+FRAUD BLOCKED
+  Transaction Count  : 0
+  Fraud Amount       : $0.00  (0.0%)
+
+RECONCILIATION CHECK
+  Validated          : $77,957.40
++ Fraud Blocked      : $0.00
+                       ---------------------
+= Total Ingress      : $77,957.40  (Balanced)
+=====================================

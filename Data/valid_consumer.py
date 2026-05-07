@@ -24,6 +24,19 @@ def get_db_conn():
     )
 
 
+def validate_db(conn):
+    with conn.cursor() as cur:
+        cur.execute(
+            "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'valid_transactions');"
+        )
+        exists = cur.fetchone()[0]
+    if not exists:
+        raise RuntimeError(
+            "Table 'valid_transactions' does not exist in the database. "
+            "Run init.sql or create it manually before starting the consumer."
+        )
+
+
 def insert_valid(cur, msg: dict):
     tx_id = msg.get("transaction_id")
     user_id = msg.get("user_id")
@@ -60,7 +73,13 @@ def main():
         try:
             conn = get_db_conn()
             conn.autocommit = False
+            validate_db(conn)
+            print("[valid-consumer] DB connection OK, table 'valid_transactions' found.")
             break
+        except RuntimeError as e:
+            print(f"[valid-consumer] Schema error: {e}")
+            conn.close()
+            raise
         except Exception as e:
             print("[valid-consumer] Waiting for Postgres...", e)
             time.sleep(2)
@@ -94,4 +113,16 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "--validate":
+        print(f"[valid-consumer] Testing connection to {PG_HOST}:{PG_PORT}/{PG_DB} user={PG_USER}")
+        try:
+            conn = get_db_conn()
+            validate_db(conn)
+            conn.close()
+            print("[valid-consumer] OK — connection and schema are valid.")
+        except Exception as e:
+            print(f"[valid-consumer] FAILED — {e}")
+            sys.exit(1)
+    else:
+        main()

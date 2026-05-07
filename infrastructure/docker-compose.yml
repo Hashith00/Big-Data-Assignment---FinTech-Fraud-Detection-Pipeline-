@@ -54,6 +54,8 @@ services:
     ports:
       - "8081:8080"
       - "7077:7077"
+    environment:
+      SPARK_DRIVER_MEMORY: 1g
     volumes:
       - ./spark-app:/opt/spark-app
     networks:
@@ -70,6 +72,9 @@ services:
         "org.apache.spark.deploy.worker.Worker",
         "spark://spark-master:7077",
       ]
+    environment:
+      SPARK_WORKER_MEMORY: 2g
+      SPARK_EXECUTOR_MEMORY: 1g
     networks:
       - kafka-network
 
