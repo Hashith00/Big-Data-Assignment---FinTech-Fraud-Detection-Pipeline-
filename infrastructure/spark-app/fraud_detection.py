@@ -26,6 +26,7 @@ raw = (
     .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP)
     .option("subscribe", SOURCE_TOPIC)
     .option("startingOffsets", "latest")
+    .option("failOnDataLoss", "false")
     .load()
 )
 
