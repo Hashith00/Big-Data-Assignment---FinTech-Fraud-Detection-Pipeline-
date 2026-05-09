@@ -131,9 +131,7 @@ airflow dags trigger etl_reconciliation
 
 ## Key Documents
 
-- **PROJECT_REPORT.md** - Detailed explanation of design and approach
 - **commands.md** - List of useful commands
 - **Storage**: PostgreSQL + Parquet
 - **Container**: Docker & Docker Compose
 
-See `PROJECT_REPORT.md` for detailed technology justification and architecture documentation.
